@@ -9,6 +9,7 @@ services:
       - "network1"
     depends_on:
       - postgres
+    command: ["bash", "-c", "python ./application.py && alembic upgrade head"]
 
   postgres:
     image: 'postgres:latest'

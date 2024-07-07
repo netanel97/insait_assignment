@@ -14,8 +14,12 @@ RUN apt-get update \
     && apt-get -y install libpq-dev gcc \
     && pip install psycopg2
 
+RUN pip install alembic
+
+
 # Install any needed packages specified in requirements.txt
 RUN pip install -r requirements.txt
+
 
 
 RUN apt-get update

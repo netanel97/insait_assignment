@@ -1,6 +1,6 @@
 from flask import Flask
 from dal.database import db  # Import SQLAlchemySingleton instance
-
+from controllers.question_controller import question_bp
 
 
 def create_app():
@@ -10,11 +10,13 @@ def create_app():
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  # Initialize SQLAlchemy with the app
-    with app.app_context():
-        # Create database tables based on models
-        db.create_all()
-        # Register blueprints
-        # app.register_blueprint(user_bp, url_prefix='/users')
+    # migrate = Migrate(app, db)
+
+    # with app.app_context():
+    #     # Create database tables based on models
+    #     db.create_all()
+    # Register blueprints
+    app.register_blueprint(question_bp, url_prefix='/users')
 
     return app
 
