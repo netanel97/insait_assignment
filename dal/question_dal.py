@@ -1,5 +1,6 @@
 from dal.database import db
-from data.question import Question
+from data.answer import Question
+
 
 class QuestionDAL:
     @staticmethod

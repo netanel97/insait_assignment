@@ -1,27 +1,19 @@
 from dal.question_dal import QuestionDAL
 from dal.answer_dal import AnswerDAL
-# import openai
+import openai
+
 import os
+
+
 class QuestionService:
-    @staticmethod
-    def ask_question(question_text):
-        # Save the question to the database
-        question_id = QuestionDAL.create_question(question_text)
+    def __init__(self):
+        self.question = QuestionDAL()
+        self.answer = AnswerDAL()
 
-        # Send the question to OpenAI API and get the answer
-
-        # openai.api_key = os.getenv('OPENAI_API_KEY')
-        # response = openai.Completion.create(
-        #     engine="text-davinci-003",
-        #     prompt=question_text,
-        #     max_tokens=50
-        # )
-        # answer_text = response.choices[0].text.strip()
-
-        # Save the answer to the database
-        # AnswerDAL.create_answer(question_id, answer_text)
-        return ""
-        # return {'question': question_text, 'answer': answer_text}
-
+    def ask_question(self, question):
+        #  Save the question to the database and return it
+        question_id = self.question.create_question(question)
+        self.answer.create_answer(question_id, "hello world")
+        return "hello world"
 
 
