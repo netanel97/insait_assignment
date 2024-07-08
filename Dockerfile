@@ -13,6 +13,8 @@ RUN apt-get update \
     && pip install --upgrade pip \
     && pip install -r requirements.txt
 
+# Environment variable to switch between running the app and tests
+ENV RUN_TESTS=false
 
-# Command to run the application
-CMD alembic upgrade head && python ./app.py
+# Command to run the application or tests
+CMD if [ "$RUN_TESTS" = "true" ]; then pytest --disable-warnings; else alembic upgrade head && python ./app.py; fi

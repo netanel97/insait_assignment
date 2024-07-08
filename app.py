@@ -1,3 +1,5 @@
+# app.py
+
 import os
 from flask import Flask
 from src.dal.database import db  # Import SQLAlchemySingleton instance
@@ -8,16 +10,21 @@ from dotenv import load_dotenv
 load_dotenv()
 
 
-def create_app():
+def create_app(database_uri=None):
     app = Flask(__name__)
-    app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+    if database_uri:
+        app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+    else:
+        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  # Initialize SQLAlchemy with the app
-    migrate = Migrate(app, db)
 
-    with app.app_context():
-        # Register blueprints
+    # Register blueprints if not already registered
+    if not app.blueprints.get('question_controller'):
         app.register_blueprint(question_bp, url_prefix='/ask')
+
+    migrate = Migrate(app, db)
 
     return app
 
