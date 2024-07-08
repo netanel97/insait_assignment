@@ -1,9 +1,23 @@
-from dal.database import db
+from sqlalchemy import Column, Integer, Text, DateTime, ForeignKey
+from sqlalchemy.ext.declarative import declarative_base
+from sqlalchemy.sql import func
+from sqlalchemy.orm import relationship
+
+Base = declarative_base()
 
 
-class Answer(db.Model):
+class Answer(Base):
     __tablename__ = 'answers'
-    id = db.Column(db.Integer, primary_key=True)
-    question_id = db.Column(db.Integer, db.ForeignKey('questions.id', ondelete='CASCADE'))
-    answer = db.Column(db.Text, nullable=False)
-    created_at = db.Column(db.DateTime, server_default=db.func.now())
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    question_id = Column(Integer, ForeignKey('questions.id', ondelete='CASCADE'), nullable=False)
+    answer = Column(Text, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
+    question = relationship("Question", back_populates="answers")
+
+
+class Question(Base):
+    __tablename__ = 'questions'
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    question = Column(Text, nullable=False)
+    created_at = Column(DateTime, server_default=func.now())
+    answers = relationship("Answer", back_populates="question")

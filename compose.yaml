@@ -1,17 +1,17 @@
 version: '3'
 
 services:
-  TestForAssignment:
-    image: 'netanel97/insait_assignment'
+  test_for_assignment:
+    build:
+      dockerfile: Dockerfile
     ports:
       - "5000:5000"
-    networks:
-      - "network1"
     depends_on:
-      - postgres
-    command: ["bash", "-c", "python ./application.py && alembic upgrade head"]
+      - db
+    volumes:
+      - .:/app
 
-  postgres:
+  db:
     image: 'postgres:latest'
     environment:
       - 'POSTGRES_DB=postgres'
@@ -19,10 +19,8 @@ services:
       - 'POSTGRES_USER=postgres'
     ports:
       - '5432:5432'
-    networks:
-      - "network1"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
 
-
-networks:
-  network1:
-    name: "network1"
+volumes:
+  postgres_data:

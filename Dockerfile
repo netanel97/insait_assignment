@@ -7,24 +7,12 @@ WORKDIR /app
 # Copy the current directory contents into the container at /app
 COPY . /app
 
-# Upgrade pip
-RUN pip install --upgrade pip
-
+# Install dependencies
 RUN apt-get update \
-    && apt-get -y install libpq-dev gcc \
-    && pip install psycopg2
-
-RUN pip install alembic
-
-
-# Install any needed packages specified in requirements.txt
-RUN pip install -r requirements.txt
+    && apt-get -y install libpq-dev gcc postgresql-client \
+    && pip install --upgrade pip \
+    && pip install -r requirements.txt
 
 
-
-RUN apt-get update
-
-EXPOSE 5000
-
-
-CMD ["python", "./application.py"]
+# Command to run the application
+CMD alembic upgrade head && python ./app.py
