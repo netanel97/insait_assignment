@@ -1,8 +1,5 @@
-from dal.question_dal import QuestionDAL
-from dal.answer_dal import AnswerDAL
-import openai
-
-import os
+from src.dal.question_dal import QuestionDAL
+from src.dal.answer_dal import AnswerDAL
 
 
 class QuestionService:

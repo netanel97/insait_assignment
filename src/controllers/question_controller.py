@@ -1,5 +1,5 @@
 from flask import Blueprint, request, jsonify
-from logic.question_service import QuestionService
+from src.logic.question_service import QuestionService
 
 question_bp = Blueprint('question_controller', __name__)
 question_service = QuestionService()

@@ -1,7 +1,7 @@
 import os
 from flask import Flask
-from dal.database import db  # Import SQLAlchemySingleton instance
-from controllers.question_controller import question_bp
+from src.dal.database import db  # Import SQLAlchemySingleton instance
+from src.controllers.question_controller import question_bp
 from flask_migrate import Migrate
 from dotenv import load_dotenv
 
