@@ -28,8 +28,6 @@ services:
     build:
       context: .
       dockerfile: Dockerfile
-    depends_on:
-      - server
     volumes:
       - .:/app
     environment:

@@ -1,5 +1,5 @@
 from src.dal.database import db
-from src.data.answer import Answer
+from src.data.models import Answer
 
 
 class AnswerDAL:

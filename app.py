@@ -8,14 +8,20 @@ from flask_migrate import Migrate
 from dotenv import load_dotenv
 
 load_dotenv()
+app = Flask(__name__)
 
 
 def create_app(database_uri=None):
-    app = Flask(__name__)
     if database_uri:
         app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
     else:
-        app.config['SQLALCHEMY_DATABASE_URI'] = os.getenv('SQLALCHEMY_DATABASE_URI')
+        postgres_user = os.getenv('POSTGRES_USER')
+        postgres_password = os.getenv('POSTGRES_PASSWORD')
+        postgres_db = os.getenv('POSTGRES_DB')
+        postgres_host = os.getenv('POSTGRES_HOST')
+        postgres_port = os.getenv('POSTGRES_PORT')
+        app.config[
+            'SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}"
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  # Initialize SQLAlchemy with the app

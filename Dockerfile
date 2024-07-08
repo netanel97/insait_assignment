@@ -17,4 +17,6 @@ RUN apt-get update \
 ENV RUN_TESTS=false
 
 # Command to run the application or tests
-CMD if [ "$RUN_TESTS" = "true" ]; then pytest --disable-warnings; else alembic upgrade head && python ./app.py; fi
+CMD sleep 10 && \
+    alembic upgrade head && \
+    python ./app.py
