@@ -1,8 +1,9 @@
 version: '3'
 
 services:
-  test_for_assignment:
+  server:
     build:
+      context: .
       dockerfile: Dockerfile
     ports:
       - "5000:5000"
@@ -11,6 +12,8 @@ services:
     volumes:
       - .:/app
     restart: always
+    environment:
+      - RUN_TESTS=false  # Ensure this service runs the application
 
   db:
     image: 'postgres:latest'
@@ -20,6 +23,16 @@ services:
       - '5432:5432'
     volumes:
       - postgres_data:/var/lib/postgresql/data
+
+  test:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    volumes:
+      - .:/app
+    environment:
+      - RUN_TESTS=true  # Ensure this service runs the tests
+    command: pytest --disable-warnings  # Override the command to run tests
 
 volumes:
   postgres_data:

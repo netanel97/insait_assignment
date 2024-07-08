@@ -5,7 +5,7 @@ question_bp = Blueprint('question_controller', __name__)
 question_service = QuestionService()
 
 
-@question_bp.route('/', methods=['POST'])
+@question_bp.route('', methods=['POST'])
 def ask_question():
     data = request.get_json()
     question_text = data.get('question')
