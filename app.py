@@ -14,22 +14,16 @@ logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
 
 
-def create_app(database_uri=None):
-
-    if database_uri:
-        app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
-        logger.info(f"Using provided database URI: {database_uri}")
-
-    else:
-        postgres_user = os.getenv('POSTGRES_USER')
-        postgres_password = os.getenv('POSTGRES_PASSWORD')
-        postgres_db = os.getenv('POSTGRES_DB')
-        postgres_host = os.getenv('POSTGRES_HOST')
-        postgres_port = os.getenv('POSTGRES_PORT')
-        app.config[
-            'SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}"
-        logger.info(f"Using database URI from environment variables")
-
+def create_app():
+    postgres_user = os.getenv('POSTGRES_USER')
+    postgres_password = os.getenv('POSTGRES_PASSWORD')
+    postgres_db = os.getenv('POSTGRES_DB')
+    postgres_host = os.getenv('POSTGRES_HOST')
+    postgres_port = os.getenv('POSTGRES_PORT')
+    url = f"postgresql+psycopg2://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}"
+    app.config[
+        'SQLALCHEMY_DATABASE_URI'] = url
+    logger.info(f"Using database URI from environment variables")
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  # Initialize SQLAlchemy with the app
     logger.info("SQLAlchemy initialized with the Flask app")
