@@ -14,7 +14,7 @@ This project implements a Flask server that interacts with the OpenAI API to ans
 
 2. **Configure Environment Variables**
 
-Update the environment variables in `docker-compose.yml` and `alembic.ini` to match your local setup:
+Update the environment variables in `docker-compose.yml` and `alembic.ini` to match your setup:
 
 - **docker-compose.yml**:
   ```yaml
