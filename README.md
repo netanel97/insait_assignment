@@ -32,13 +32,20 @@ Update the environment variables in `docker-compose.yml` and `alembic.ini` to ma
   sqlalchemy.url = postgresql+psycopg2://<YOUR_POSTGRES_USER_NAME>:<YOUR_POSTGRES_PASSWORD>@<YOUR_POSTGRES_HOST>:<YOUR_POSTGRES_PORT>/<YOUR_POSTGRES_DB_NAME>
   ```
 
-4. **Build and Run the Containers**
+ ### Docker
+  The project uses Docker to containerize the Flask application, tests, and PostgreSQL database.
+  If you run this project for the first time, run compose commad with the `--build` flag:
   ```
    docker-compose up --build -d
-  ``` 
+  ```
+  To rerun the containers:
+  ```
+  docker-compose up -d
+  ```
+ 
   This command builds and starts the Flask server, tests and PostgreSQL containers.
 
-6. **Access the Server**
+5. **Access the Server**
 
   The Flask server should now be running at `http://127.0.0.1:5000` by default.
 
@@ -67,20 +74,27 @@ To test the `/ask` endpoint with Postman:
   * answer: Text, not null
   * created_at: DateTime, default: current timestamp
  
-  ![WhatsApp Image 2024-07-09 at 10 13 19](https://github.com/netanel97/insait_assignment/assets/101398032/6a92b171-8058-406b-956f-de3a24dbf9a6)
 
 * questions table:
   * id: Integer, primary key, autoincrement
   * question: Text, not null
   * created_at: DateTime, default: current timestamp
+```mermaid
+erDiagram
+    QUESTIONS {
+        int id
+        string question
+        datetime created_at
+    }
+    ANSWERS {
+        int id
+        int question_id
+        string answer
+        datetime created_at
+    }
+    QUESTIONS ||--o{ ANSWERS : "question_id"
+```
 
- ![WhatsApp Image 2024-07-09 at 10 13 07](https://github.com/netanel97/insait_assignment/assets/101398032/550e75f4-5af5-42b6-9f75-8727056ecc28)
-
-## Docker
-  The project uses Docker to containerize the Flask application, tests, and PostgreSQL database. To start the containers again after the initial build:
-  ```
-  docker-compose up -d
-  ```
 
 
 
