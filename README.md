@@ -33,10 +33,12 @@ Update the environment variables in `docker-compose.yml` and `alembic.ini` to ma
   ```
 
 4. **Build and Run the Containers**
-  docker-compose up --build -d   
+  ```
+   docker-compose up --build -d
+  ``` 
   This command builds and starts the Flask server, tests and PostgreSQL containers.
 
-5. **Access the Server**
+6. **Access the Server**
 
   The Flask server should now be running at `http://127.0.0.1:5000` by default.
 
