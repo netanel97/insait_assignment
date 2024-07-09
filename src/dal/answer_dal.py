@@ -5,7 +5,11 @@ from src.data.models import Answer
 class AnswerDAL:
     @staticmethod
     def create_answer(question_id, answer_text):
-        new_answer = Answer(question_id=question_id, answer=answer_text)
-        db.session.add(new_answer)
-        db.session.commit()
-        return new_answer.id
+        try:
+            new_answer = Answer(question_id=question_id, answer=answer_text)
+            db.session.add(new_answer)
+            db.session.commit()
+            return new_answer.id
+        except Exception as e:
+            db.session.rollback()
+            return {'error': f"Failed to create answer: {str(e)}"}

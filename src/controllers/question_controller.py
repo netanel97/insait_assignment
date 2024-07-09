@@ -12,5 +12,5 @@ def ask_question():
     if not question_text:
         return jsonify({'error': 'Question text is required'}), 400
 
-    response = question_service.ask_question(question_text)
-    return jsonify(response), 200
+    response, status_code = question_service.ask_question(question_text)
+    return jsonify(response), status_code
