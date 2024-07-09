@@ -98,5 +98,18 @@ erDiagram
 
 
 
+### Data Example
+
+#### questions Table
+
+| id | question | created_at               |
+|----|----------|--------------------------|
+|  1 | Hi Chat, keep your fingers crossed that I get accepted into INSAIT | 2024-07-09 08:45:27.560119 |
+
+#### answers Table
+
+| id | question_id | answer                               | created_at               |
+|----|-------------|--------------------------------------|--------------------------|
+|  1 | 1           |  That's great to hear! I'll definitely keep my fingers crossed for you. Good luck with you application to INSTAIT! I hope you get accepted.     | 2024-07-09 08:45:27.571257 |
 
 
