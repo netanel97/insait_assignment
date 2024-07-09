@@ -6,14 +6,20 @@ from src.dal.database import db  # Import SQLAlchemySingleton instance
 from src.controllers.question_controller import question_bp
 from flask_migrate import Migrate
 from dotenv import load_dotenv
+import logging
 
 load_dotenv()
 app = Flask(__name__)
+logging.basicConfig(level=logging.INFO)
+logger = logging.getLogger(__name__)
 
 
 def create_app(database_uri=None):
+
     if database_uri:
         app.config['SQLALCHEMY_DATABASE_URI'] = database_uri
+        logger.info(f"Using provided database URI: {database_uri}")
+
     else:
         postgres_user = os.getenv('POSTGRES_USER')
         postgres_password = os.getenv('POSTGRES_PASSWORD')
@@ -22,13 +28,16 @@ def create_app(database_uri=None):
         postgres_port = os.getenv('POSTGRES_PORT')
         app.config[
             'SQLALCHEMY_DATABASE_URI'] = f"postgresql+psycopg2://{postgres_user}:{postgres_password}@{postgres_host}:{postgres_port}/{postgres_db}"
+        logger.info(f"Using database URI from environment variables")
 
     app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
     db.init_app(app)  # Initialize SQLAlchemy with the app
+    logger.info("SQLAlchemy initialized with the Flask app")
 
     # Register blueprints if not already registered
     if not app.blueprints.get('question_controller'):
         app.register_blueprint(question_bp, url_prefix='/ask')
+        logger.info("Blueprint 'question_controller' registered with prefix '/ask'")
 
     migrate = Migrate(app, db)
 
@@ -37,4 +46,5 @@ def create_app(database_uri=None):
 
 if __name__ == '__main__':
     flask_app = create_app()
+    logger.info("Starting Flask app")
     flask_app.run(debug=True, host="0.0.0.0")
