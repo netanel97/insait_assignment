@@ -10,14 +10,13 @@ logger = logging.getLogger(__name__)
 
 
 @question_bp.route('', methods=['POST'])
-def ask_question():
+async def ask_question():
     data = request.get_json()
     question_text = data.get('question')
     if not question_text:
         logger.error('No question text provided in the request')
         return jsonify({'error': 'Question text is required'}), 400
     logger.info(f"Received question: {question_text}")
-    response, status_code = question_service.ask_question(question_text)
+    response, status_code = await question_service.ask_question(question_text)
     logger.info(f"Response: {response}, Status Code: {status_code}")
-
     return jsonify(response), status_code
